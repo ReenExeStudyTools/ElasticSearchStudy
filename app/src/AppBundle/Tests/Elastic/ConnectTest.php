@@ -16,5 +16,7 @@ class ConnectTest extends KernelTestCase
 
         /* @var $this \PHPUnit_Framework_TestCase */
         $this->assertSame($serverStatus['status'], 200);
+        $this->assertSame($serverStatus['name'], 'Mekano');
+        $this->assertSame($serverStatus['cluster_name'], 'elasticsearch');
     }
 }
