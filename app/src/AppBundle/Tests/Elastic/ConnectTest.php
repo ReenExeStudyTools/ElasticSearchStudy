@@ -8,6 +8,7 @@ class ConnectTest extends KernelTestCase
 {
     public function test()
     {
-
+        static::bootKernel();
+        static::$kernel->getContainer()->get('fos_elastica.provider_registry');
     }
 }
