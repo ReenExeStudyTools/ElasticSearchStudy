@@ -18,3 +18,6 @@ curl -X GET http://localhost:9200/
 ### Books
 ##### Mastering ElasticSearch (Second Edition) Rafal Kuc, Marek Rogozinski
 * [progress: 28 from 434]
+
+##### ElasticSearch Server (Second Edition) Rafal Kuc, Marek Rogozinski
+* [progress: 60 from 428]
