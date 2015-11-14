@@ -14,3 +14,7 @@ phpunit -c app
 sh elasticsearch/bin/elasticsearch
 curl -X GET http://localhost:9200/
 ```
+
+### Books
+##### Mastering ElasticSearch (Second Edition) Rafal Kuc, Marek Rogozinski
+* [progress: 28 from 434]
