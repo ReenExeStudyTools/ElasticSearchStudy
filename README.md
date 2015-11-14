@@ -21,3 +21,4 @@ curl -X GET http://localhost:9200/
 
 ##### ElasticSearch Server (Second Edition) Rafal Kuc, Marek Rogozinski
 * [progress: 60 from 428]
+* [progress: 75 from 428]
