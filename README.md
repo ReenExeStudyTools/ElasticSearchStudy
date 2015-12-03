@@ -35,3 +35,4 @@ curl -X GET http://localhost:9200/
 * [progress: 250 from 428]
 * [progress: 265 from 428]
 * [progress: 282 from 428]
+* [progress: 301 from 428]
