@@ -44,3 +44,4 @@ curl -X GET http://localhost:9200/
 * [progress: 48 from 719]
 * [progress: 60 from 719]
 * [progress: 72 from 719]
+* [progress: 80 from 719]
