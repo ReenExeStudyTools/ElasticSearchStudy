@@ -55,6 +55,16 @@ class ConnectTest extends KernelTestCase
                 '_source' => $source,
             ]
         );
+
+        /* @var $response \Elastica\Response */
+        $exist = $client->request('/products/product/1', 'HEAD');
+
+        $this->assertSame($exist->getStatus(), 200);
+
+        /* @var $response \Elastica\Response */
+        $absent = $client->request('/products/product/2', 'HEAD');
+
+        $this->assertSame($absent->getStatus(), 404);
     }
 
     /**
