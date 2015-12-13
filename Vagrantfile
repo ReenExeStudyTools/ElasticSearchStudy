@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     v.cpus = "2"
     v.name = "ubuntu_elastic.box"
-    v.customize ["modifyvm", :id, "--memory",               "1024"]
+    v.customize ["modifyvm", :id, "--memory",               "2048"]
     v.customize ["modifyvm", :id, "--cpuexecutioncap",      "95"]
     v.customize ["modifyvm", :id, "--natdnshostresolver1",  "on"]
     v.customize ["modifyvm", :id, "--natdnsproxy1",         "on"]

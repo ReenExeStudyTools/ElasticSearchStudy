@@ -1,2 +1,4 @@
+#ruflin/Elastica package is not compatible with elasticsearch 2.0 yet.
 elasticsearch-2.0.0.tar.gz
+elasticsearch-1.7.2.tar.gz
 elasticsearch
