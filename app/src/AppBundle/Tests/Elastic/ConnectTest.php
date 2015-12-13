@@ -25,6 +25,38 @@ class ConnectTest extends KernelTestCase
         $this->assertTrue($client->getConnection()->isEnabled());
     }
 
+    public function testAdd()
+    {
+        $client = $this->getClient();
+
+        try {
+            $client->request('products/product', 'DELETE');
+        } catch (\Exception $e) {
+
+        }
+
+        $client->request('/products/product/1', 'POST', [
+            'name' => 'Shirt'
+        ]);
+
+        /* @var $response \Elastica\Response */
+        $response = $client->request('/products/product/1', 'GET');
+
+        $this->assertSame(
+            $response->getData(),
+            [
+                '_index' => 'products',
+                '_type' => 'product',
+                '_id' => '1',
+                '_version' => 1,
+                'found' => true,
+                '_source' => [
+                    'name' => 'Shirt'
+                ]
+            ]
+        );
+    }
+
     /**
      * @return \FOS\ElasticaBundle\Elastica\Client
      */
