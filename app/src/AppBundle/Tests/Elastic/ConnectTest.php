@@ -35,9 +35,11 @@ class ConnectTest extends KernelTestCase
 
         }
 
-        $client->request('/products/product/1', 'POST', [
+        $source = [
             'name' => 'Shirt'
-        ]);
+        ];
+
+        $client->request('/products/product/1', 'POST', $source);
 
         /* @var $response \Elastica\Response */
         $response = $client->request('/products/product/1', 'GET');
@@ -50,9 +52,7 @@ class ConnectTest extends KernelTestCase
                 '_id' => '1',
                 '_version' => 1,
                 'found' => true,
-                '_source' => [
-                    'name' => 'Shirt'
-                ]
+                '_source' => $source,
             ]
         );
     }
