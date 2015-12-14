@@ -30,19 +30,19 @@ class ConnectTest extends KernelTestCase
         $client = $this->getClient();
 
         try {
-            $client->request('products/product', 'DELETE');
+            $client->request('/products', 'DELETE');
         } catch (\Exception $e) {
 
         }
 
-        $source = [
-            'name' => 'Shirt'
+        $sourceProduct = [
+            'name' => 'Black Shirt'
         ];
 
-        $client->request('/products/product/1', 'POST', $source);
+        $client->request('/products/product/1', 'PUT', $sourceProduct);
 
         /* @var $response \Elastica\Response */
-        $response = $client->request('/products/product/1', 'GET');
+        $response = $client->request('/products/product/1');
 
         $this->assertSame(
             $response->getData(),
@@ -52,18 +52,39 @@ class ConnectTest extends KernelTestCase
                 '_id' => '1',
                 '_version' => 1,
                 'found' => true,
-                '_source' => $source,
+                '_source' => $sourceProduct,
+            ]
+        );
+
+        $sourceCategory = [
+            'alias' => 'shirt',
+            'code' => 3,
+            'name' => 'Shirt',
+        ];
+
+        $client->request('/products/category/3', 'PUT', $sourceCategory);
+
+        /* @var $response \Elastica\Response */
+        $response = $client->request('/products/category/3');
+
+        $this->assertSame(
+            $response->getData(),
+            [
+                '_index' => 'products',
+                '_type' => 'category',
+                '_id' => '3',
+                '_version' => 1,
+                'found' => true,
+                '_source' => $sourceCategory,
             ]
         );
 
         /* @var $response \Elastica\Response */
         $exist = $client->request('/products/product/1', 'HEAD');
-
         $this->assertSame($exist->getStatus(), 200);
 
         /* @var $response \Elastica\Response */
         $absent = $client->request('/products/product/2', 'HEAD');
-
         $this->assertSame($absent->getStatus(), 404);
     }
 
