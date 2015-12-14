@@ -11,7 +11,7 @@ class ConnectTest extends KernelTestCase
         static::bootKernel();
     }
 
-    public function test()
+    public function testConnect()
     {
         $client = $this->getClient();
 
@@ -25,7 +25,7 @@ class ConnectTest extends KernelTestCase
         $this->assertTrue($client->getConnection()->isEnabled());
     }
 
-    public function testAdd()
+    public function test()
     {
         $client = $this->getClient();
 
@@ -78,6 +78,48 @@ class ConnectTest extends KernelTestCase
                 '_source' => $sourceCategory,
             ]
         );
+
+        $beforeRefreshSearchHits = [
+            'total' => 0,
+            'max_score' => null,
+            'hits' => [],
+        ];
+
+        /* @var $resultSet \Elastica\ResultSet */
+        $resultSet = $client->getIndex('products')->getType('product')->search();
+        $data = $resultSet->getResponse()->getData();
+        $this->assertSame($data['hits'], $beforeRefreshSearchHits);
+
+        /* @var $response \Elastica\Response */
+        $response = $client->request('/products/product/_search');
+        $data = $response->getData();
+        $this->assertSame($data['hits'], $beforeRefreshSearchHits);
+
+        $client->request('/products/_refresh', 'POST');
+
+        $afterRefreshSearchHits = [
+            'total' => 1,
+            'max_score' => 1.0,
+            'hits' => [
+                0 => [
+                    '_index' => 'products',
+                    '_type' => 'product',
+                    '_id' => '1',
+                    '_score' => 1.0,
+                    '_source' => $sourceProduct
+                ]
+            ]
+        ];
+
+        /* @var $resultSet \Elastica\ResultSet */
+        $resultSet = $client->getIndex('products')->getType('product')->search();
+        $data = $resultSet->getResponse()->getData();
+        $this->assertSame($data['hits'], $afterRefreshSearchHits);
+
+        /* @var $response \Elastica\Response */
+        $response = $client->request('/products/product/_search');
+        $data = $response->getData();
+        $this->assertSame($data['hits'], $afterRefreshSearchHits);
 
         /* @var $response \Elastica\Response */
         $exist = $client->request('/products/product/1', 'HEAD');
