@@ -95,7 +95,16 @@ class ConnectTest extends KernelTestCase
         $data = $response->getData();
         $this->assertSame($data['hits'], $beforeRefreshSearchHits);
 
+        /* @var $response \Elastica\Response */
+        $response = $client->request('/products/product/_count');
+        $data = $response->getData();
+        $this->assertSame($data['count'], 0);
+
+        $count = $client->getIndex('products')->getType('product')->count();
+        $this->assertSame($count, 0);
+
         $client->request('/products/_refresh', 'POST');
+        $client->getIndex('products')->refresh();
 
         $afterRefreshSearchHits = [
             'total' => 1,
@@ -122,12 +131,22 @@ class ConnectTest extends KernelTestCase
         $this->assertSame($data['hits'], $afterRefreshSearchHits);
 
         /* @var $response \Elastica\Response */
+        $response = $client->request('/products/product/_count');
+        $data = $response->getData();
+        $this->assertSame($data['count'], 1);
+
+        $count = $client->getIndex('products')->getType('product')->count();
+        $this->assertSame($count, 1);
+
+        /* @var $response \Elastica\Response */
         $exist = $client->request('/products/product/1', 'HEAD');
         $this->assertSame($exist->getStatus(), 200);
+        $this->assertTrue($exist->isOk());
 
         /* @var $response \Elastica\Response */
         $absent = $client->request('/products/product/2', 'HEAD');
         $this->assertSame($absent->getStatus(), 404);
+        $this->assertFalse($absent->isOk());
     }
 
     /**
