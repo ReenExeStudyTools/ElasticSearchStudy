@@ -40,9 +40,10 @@ curl -X GET http://localhost:9200/
 * [progress: complete]
 
 ##### Elasticsearch: The Definitive Guide
-* [progress: 47 from 719] (repeat)
+* [progress: 47 from 719] [repeat]
 * [progress: 48 from 719]
 * [progress: 60 from 719]
 * [progress: 72 from 719]
 * [progress: 80 from 719]
 * [progress: 88 from 719]
+* [progress: 105 from 719]
