@@ -14,7 +14,6 @@ class ConnectTest extends AbstractElasticTestCase
 
         /* @var $this \PHPUnit_Framework_TestCase */
         $this->assertSame($serverStatus['status'], 200);
-        $this->assertSame($serverStatus['name'], 'Nekra');
         $this->assertSame($serverStatus['cluster_name'], 'elasticsearch');
 
         $this->assertTrue($client->getConnection()->isEnabled());
