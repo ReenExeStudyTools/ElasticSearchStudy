@@ -10,9 +10,9 @@ class AnalyzerTest extends AbstractElasticTestCase
 
         $response = $client->request('_analyze?text=just+do+it');
 
-        $data = $response->getData();
+        $actual = $response->getData();
 
-        $this->assertSame($data, [
+        $expect = [
             'tokens' => [
                 [
                     'token' => 'just',
@@ -36,6 +36,12 @@ class AnalyzerTest extends AbstractElasticTestCase
                     'position' => 3,
                 ],
             ]
-        ]);
+        ];
+
+        $this->assertSame($actual, $expect);
+
+        $response = $client->request('_analyze', 'GET', 'just do it');
+        $actual = $response->getData();
+        $this->assertSame($actual, $expect);
     }
 }
