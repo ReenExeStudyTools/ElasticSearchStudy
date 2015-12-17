@@ -53,5 +53,33 @@ class MatchTest extends AbstractElasticTestCase
                 ]
             ]
         );
+
+        /* @var $resultSet ResultSet */
+        $resultSet = $type->search([
+            'query' => [
+                'match' => [
+                    'name' => 'Black'
+                ]
+            ]
+        ]);
+
+        $response = $resultSet->getResponse()->getData();
+
+        $this->assertSame(
+            $response['hits'],
+            [
+                'total' => 1,
+                'max_score' => 0.19178301,
+                'hits' => [
+                    [
+                        '_index' => 'products',
+                        '_type' => 'product',
+                        '_id' => (string)$id,
+                        '_score' => 0.19178301,
+                        '_source' => $source,
+                    ]
+                ]
+            ]
+        );
     }
 }
