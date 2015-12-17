@@ -2,16 +2,10 @@
 
 namespace AppBundle\Tests\Elastic;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Elastica\Document;
 
-class ConnectTest extends KernelTestCase
+class ConnectTest extends AbstractElasticTestCase
 {
-    public function setUp()
-    {
-        static::bootKernel();
-    }
-
     public function testConnect()
     {
         $client = $this->getClient();
@@ -20,7 +14,7 @@ class ConnectTest extends KernelTestCase
 
         /* @var $this \PHPUnit_Framework_TestCase */
         $this->assertSame($serverStatus['status'], 200);
-        $this->assertSame($serverStatus['name'], 'Fan Boy');
+        $this->assertSame($serverStatus['name'], 'Nekra');
         $this->assertSame($serverStatus['cluster_name'], 'elasticsearch');
 
         $this->assertTrue($client->getConnection()->isEnabled());
@@ -174,16 +168,5 @@ class ConnectTest extends KernelTestCase
                 ]
             ]
         ];
-    }
-
-    /**
-     * @return \FOS\ElasticaBundle\Elastica\Client
-     */
-    private function getClient()
-    {
-        /* @var $client \FOS\ElasticaBundle\Elastica\Client */
-        $client = static::$kernel->getContainer()->get('fos_elastica.client.default');
-
-        return $client;
     }
 }
