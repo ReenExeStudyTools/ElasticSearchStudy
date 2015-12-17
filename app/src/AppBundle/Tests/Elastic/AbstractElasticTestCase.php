@@ -4,7 +4,7 @@ namespace AppBundle\Tests\Elastic;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class AbstractElasticTestCase extends KernelTestCase
+abstract class AbstractElasticTestCase extends KernelTestCase
 {
     public function setUp()
     {
