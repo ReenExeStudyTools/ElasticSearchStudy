@@ -19,7 +19,8 @@ class MatchTest extends AbstractElasticTestCase
 
         $id = 1;
         $source = [
-            'name' => 'Black Shirt'
+            'name' => 'Black Shirt',
+            'price' => 100,
         ];
 
         $type->addDocument(
@@ -65,21 +66,50 @@ class MatchTest extends AbstractElasticTestCase
 
         $response = $resultSet->getResponse()->getData();
 
+        $expect =             [
+            'total' => 1,
+            'max_score' => 0.19178301,
+            'hits' => [
+                [
+                    '_index' => 'products',
+                    '_type' => 'product',
+                    '_id' => (string)$id,
+                    '_score' => 0.19178301,
+                    '_source' => $source,
+                ]
+            ]
+        ];
+
         $this->assertSame(
             $response['hits'],
-            [
-                'total' => 1,
-                'max_score' => 0.19178301,
-                'hits' => [
-                    [
-                        '_index' => 'products',
-                        '_type' => 'product',
-                        '_id' => (string)$id,
-                        '_score' => 0.19178301,
-                        '_source' => $source,
+            $expect
+        );
+
+        /* @var $resultSet ResultSet */
+        $resultSet = $type->search([
+            'query' => [
+                'filtered' => [
+                    'filter' => [
+                        'range' => [
+                            'price' => [
+                                'gt' => 30
+                            ]
+                        ]
+                    ],
+                    'query' => [
+                        'match' => [
+                            'name' => 'Black'
+                        ]
                     ]
                 ]
             ]
+        ]);
+
+        $response = $resultSet->getResponse()->getData();
+
+        $this->assertSame(
+            $response['hits'],
+            $expect
         );
     }
 }
