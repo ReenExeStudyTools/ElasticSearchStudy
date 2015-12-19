@@ -40,7 +40,8 @@ class MappingTest extends AbstractElasticTestCase
                 'geo' => [
                     'latitude' => 1,
                     'longitude' => 1,
-                ]
+                ],
+                'exist' => true
             ])
         );
 
@@ -58,6 +59,9 @@ class MappingTest extends AbstractElasticTestCase
                         'properties' => [
                             'age' => [
                                 'type' => 'long'
+                            ],
+                            'exist' => [
+                                'type' => 'boolean'
                             ],
                             'gender' => [
                                 'type' => 'string'
