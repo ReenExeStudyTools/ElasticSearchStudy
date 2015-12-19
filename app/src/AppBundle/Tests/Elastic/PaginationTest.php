@@ -19,7 +19,6 @@ class PaginationTest extends AbstractElasticTestCase
 
         $type = $index->getType('product');
 
-
         $documents = [];
         for ($id = 1; $id <= 100; ++$id) {
             $documents[] = new Document($id, [
@@ -43,5 +42,14 @@ class PaginationTest extends AbstractElasticTestCase
             $this->assertSame($response['hits']['total'], 100);
             $this->assertSame(count($response['hits']['hits']), $size);
         }
+
+        $resultSet = $type->search([
+            'from' => 90,
+            'size' => 20,
+        ]);
+
+        $response = $resultSet->getResponse()->getData();
+        $this->assertSame($response['hits']['total'], 100);
+        $this->assertSame(count($response['hits']['hits']), 10);
     }
 }
