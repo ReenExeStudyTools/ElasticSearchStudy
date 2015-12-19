@@ -43,13 +43,22 @@ class PaginationTest extends AbstractElasticTestCase
             $this->assertSame(count($response['hits']['hits']), $size);
         }
 
-        $resultSet = $type->search([
-            'from' => 90,
-            'size' => 20,
-        ]);
+        $dataProvider = [
+            [90, 20, 10],
+            [100, 20, 0],
+            [200, 20, 0],
+            [0, 0, 0],
+        ];
 
-        $response = $resultSet->getResponse()->getData();
-        $this->assertSame($response['hits']['total'], 100);
-        $this->assertSame(count($response['hits']['hits']), 10);
+        foreach ($dataProvider as list($from, $size, $expect)) {
+            $resultSet = $type->search([
+                'from' => $from,
+                'size' => $size,
+            ]);
+
+            $response = $resultSet->getResponse()->getData();
+            $this->assertSame($response['hits']['total'], 100);
+            $this->assertSame(count($response['hits']['hits']), $expect);
+        }
     }
 }
