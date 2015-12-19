@@ -53,3 +53,6 @@ curl -X GET http://localhost:9200/
 
 ### Links:
 * [Guide](https://www.elastic.co/guide/en/elasticsearch/guide/current/index.html)
+
+### TODO:
+* Need solution to resolve issue 'When `жіноча` (сумка) and `жіночний` (піджак) words will same' 
