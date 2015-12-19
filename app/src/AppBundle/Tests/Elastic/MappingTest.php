@@ -25,7 +25,13 @@ class MappingTest extends AbstractElasticTestCase
                 'age' => 23,
                 'gender' => 'men',
                 'register' => date('Y-m-d'),
-                'login' => date('Y-m-d H:i:s')
+                'login' => date('Y-m-d H:i:s'),
+                'skills' => [
+                    [
+                        'name' => 'music',
+                        'year' => 3,
+                    ]
+                ]
             ])
         );
 
@@ -59,6 +65,16 @@ class MappingTest extends AbstractElasticTestCase
                             'register' => [
                                 'type' => 'date',
                                 'format' => 'dateOptionalTime'
+                            ],
+                            'skills' => [
+                                'properties' => [
+                                    'name' => [
+                                        'type' => 'string'
+                                    ],
+                                    'year' => [
+                                        'type' => 'long'
+                                    ]
+                                ]
                             ],
                             'user_id' => [
                                 'type' => 'long'
