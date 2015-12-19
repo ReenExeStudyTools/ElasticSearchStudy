@@ -30,7 +30,16 @@ class MappingTest extends AbstractElasticTestCase
                     [
                         'name' => 'music',
                         'year' => 3,
+                        'additional' => [null]
+                    ],
+                    [
+                        'name' => 'architect',
+                        'year' => 1,
                     ]
+                ],
+                'geo' => [
+                    'latitude' => 1,
+                    'longitude' => 1,
                 ]
             ])
         );
@@ -52,6 +61,16 @@ class MappingTest extends AbstractElasticTestCase
                             ],
                             'gender' => [
                                 'type' => 'string'
+                            ],
+                            'geo' => [
+                                'properties' => [
+                                    'latitude' => [
+                                        'type' => 'long'
+                                    ],
+                                    'longitude' => [
+                                        'type' => 'long'
+                                    ]
+                                ]
                             ],
                             'interests' => [
                                 'type' => 'string'
