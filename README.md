@@ -55,6 +55,7 @@ curl -X GET http://localhost:9200/
 * [progress: 171 from 719]
 * [progress: 180 from 719]
 * [progress: 185 from 719]
+* [progress: 197 from 719]
 
 ### Links:
 * [Guide](https://www.elastic.co/guide/en/elasticsearch/guide/current/index.html)
