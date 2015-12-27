@@ -41,18 +41,7 @@ class AliasTest extends AbstractElasticTestCase
 
         $old->addAlias('products');
 
-        $index = $client->getIndex('products');
-
-        /* @var $resultSet ResultSet */
-        $resultSet = $index->search([
-            'query' => [
-                'match_all' => []
-            ]
-        ]);
-
-        $response = $resultSet->getResponse()->getData();
-
-        $this->assertSame($response['hits']['hits'][0]['_source'], $oldProduct);
+        $this->assertSameFirstProduct($index, $oldProduct);
 
         $client->request('/_aliases', 'POST', [
            'actions' => [
@@ -71,6 +60,11 @@ class AliasTest extends AbstractElasticTestCase
            ]
         ]);
 
+        $this->assertSameFirstProduct($index, $newProduct);
+    }
+
+    private function assertSameFirstProduct(Index $index, array $product)
+    {
         /* @var $resultSet ResultSet */
         $resultSet = $index->search([
             'query' => [
@@ -80,6 +74,6 @@ class AliasTest extends AbstractElasticTestCase
 
         $response = $resultSet->getResponse()->getData();
 
-        $this->assertSame($response['hits']['hits'][0]['_source'], $newProduct);
+        $this->assertSame($response['hits']['hits'][0]['_source'], $product);
     }
 }
