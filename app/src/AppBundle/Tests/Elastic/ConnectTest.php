@@ -109,7 +109,14 @@ class ConnectTest extends AbstractElasticTestCase
 
         }
 
-        $index->create([], true);
+        $index->create([
+            'settings' => [
+                'index' => [
+                    'refresh_interval' => -1
+                ]
+            ]
+        ]);
+
         $type = $index->getType('product');
 
         $this->assertFalse($type->exists());
