@@ -102,6 +102,7 @@ class ConnectTest extends AbstractElasticTestCase
         $client = $this->getClient();
 
         $index = $client->getIndex('products');
+
         try {
             $index->delete();
         } catch (\Exception $e) {

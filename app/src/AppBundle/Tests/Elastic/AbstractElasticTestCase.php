@@ -2,6 +2,7 @@
 
 namespace AppBundle\Tests\Elastic;
 
+use Elastica\Index;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 abstract class AbstractElasticTestCase extends KernelTestCase
@@ -22,5 +23,12 @@ abstract class AbstractElasticTestCase extends KernelTestCase
             ->get('fos_elastica.client.default');
 
         return $client;
+    }
+
+    protected function clearIndex(Index $index)
+    {
+        try {
+            $index->delete();
+        } catch (\Exception $e) {}
     }
 }

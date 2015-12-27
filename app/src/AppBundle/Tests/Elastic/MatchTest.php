@@ -13,11 +13,7 @@ class MatchTest extends AbstractElasticTestCase
 
         $index = $client->getIndex('products');
 
-        try {
-            $index->delete();
-        } catch (\Exception $e) {
-
-        }
+        $this->clearIndex($index);
 
         $type = $index->getType('product');
 
@@ -123,11 +119,7 @@ class MatchTest extends AbstractElasticTestCase
 
         $index = $client->getIndex('users');
 
-        try {
-            $index->delete();
-        } catch (\Exception $e) {
-
-        }
+        $this->clearIndex($index);
 
         $type = $index->getType('user');
 

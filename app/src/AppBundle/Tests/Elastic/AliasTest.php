@@ -16,13 +16,10 @@ class AliasTest extends AbstractElasticTestCase
         $new = $client->getIndex('new');
         $index = $client->getIndex('products');
 
+
         /* @var $clearIndex Index */
         foreach ([$old, $new, $index] as $clearIndex) {
-            try {
-                $clearIndex->delete();
-            } catch (\Exception $e) {
-
-            }
+            $this->clearIndex($clearIndex);
         }
 
         $oldProduct = [

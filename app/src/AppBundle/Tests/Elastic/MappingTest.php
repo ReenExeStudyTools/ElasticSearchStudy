@@ -11,9 +11,8 @@ class MappingTest extends AbstractElasticTestCase
         $client = $this->getClient();
 
         $index = $client->getIndex('users');
-        try {
-            $index->delete();
-        } catch (\Exception $e) {}
+
+        $this->clearIndex($index);
 
         $type = $index->getType('user');
 

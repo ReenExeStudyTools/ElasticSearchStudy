@@ -11,11 +11,8 @@ class PaginationTest extends AbstractElasticTestCase
         $client = $this->getClient();
 
         $index = $client->getIndex('pagination');
-        try {
-            $index->delete();
-        } catch (\Exception $e) {
 
-        }
+        $this->clearIndex($index);
 
         $type = $index->getType('product');
 
