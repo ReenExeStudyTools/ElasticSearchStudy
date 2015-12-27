@@ -43,22 +43,7 @@ class AliasTest extends AbstractElasticTestCase
 
         $this->assertSameFirstProduct($index, $oldProduct);
 
-        $client->request('/_aliases', 'POST', [
-           'actions' => [
-                [
-                    'remove' => [
-                        'index' => 'old',
-                        'alias' => 'products',
-                    ]
-                ],
-                [
-                    'add' => [
-                        'index' => 'new',
-                        'alias' => 'products',
-                    ]
-                ],
-           ]
-        ]);
+        $new->addAlias('products', true);
 
         $this->assertSameFirstProduct($index, $newProduct);
     }
