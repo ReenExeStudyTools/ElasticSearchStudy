@@ -43,26 +43,41 @@ class FilterTest extends AbstractElasticTestCase
 
         $index->refresh();
 
-        $this->assertSearchResult(
-            $index,
+        $dataProvider = [
             [
-                'query' => [
-                    'filtered' => [
-                        'query' => [
-                            'match_all' => []
-                        ],
-                        'filter' => [
-                            'term' => [
-                                'price' => 10
+                10,
+                [$book]
+            ],
+            [
+                20,
+                [$note, $phone]
+            ],
+            [
+                100,
+                []
+            ]
+        ];
+
+        foreach ($dataProvider as list($price, $expect)) {
+            $this->assertSearchResult(
+                $index,
+                [
+                    'query' => [
+                        'filtered' => [
+                            'query' => [
+                                'match_all' => []
+                            ],
+                            'filter' => [
+                                'term' => [
+                                    'price' => $price
+                                ]
                             ]
                         ]
                     ]
-                ]
-            ],
-            [
-                $book
-            ]
-        );
+                ],
+                $expect
+            );
+        }
     }
 
     private function assertSearchResult(Index $index, array $query, array $expect)
