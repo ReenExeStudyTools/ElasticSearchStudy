@@ -45,20 +45,35 @@ class FilterTest extends AbstractElasticTestCase
 
         $dataProvider = [
             [
+                'price',
                 10,
                 [$book]
             ],
             [
+                'price',
                 20,
                 [$note, $phone]
             ],
             [
+                'price',
                 100,
                 []
-            ]
+            ],
+
+            [
+                'name',
+                'book', // Attention: in lowercase
+                [$book]
+            ],
+
+            [
+                'name',
+                'note', // Attention: in lowercase
+                [$note]
+            ],
         ];
 
-        foreach ($dataProvider as list($price, $expect)) {
+        foreach ($dataProvider as list($field, $value, $expect)) {
             $this->assertSearchResult(
                 $index,
                 [
@@ -69,7 +84,7 @@ class FilterTest extends AbstractElasticTestCase
                             ],
                             'filter' => [
                                 'term' => [
-                                    'price' => $price
+                                    $field => $value
                                 ]
                             ]
                         ]
