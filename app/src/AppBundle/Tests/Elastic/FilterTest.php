@@ -4,6 +4,7 @@ namespace AppBundle\Tests\Elastic;
 
 use Elastica\Document;
 use Elastica\Index;
+use Elastica\Multi\ResultSet;
 
 class FilterTest extends AbstractElasticTestCase
 {
@@ -18,13 +19,16 @@ class FilterTest extends AbstractElasticTestCase
         $type = $index->getType('type');
 
         $data = [
-            1 => [
+            1 => $book = [
+                'name' => 'Book',
                 'price' => 10
             ],
-            2 => [
+            2 => $note = [
+                'name' => 'Note',
                 'price' => 20
             ],
-            3 => [
+            3 => $phone = [
+                'name' => 'Phone',
                 'price' => 20
             ]
         ];
@@ -39,11 +43,35 @@ class FilterTest extends AbstractElasticTestCase
 
         $index->refresh();
 
-        $this->assertSearchResult($index, [], []);
+        $this->assertSearchResult(
+            $index,
+            [
+                'query' => [
+                    'filtered' => [
+                        'query' => [
+                            'match_all' => []
+                        ],
+                        'filter' => [
+                            'term' => [
+                                'price' => 10
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
+                $book
+            ]
+        );
     }
 
     private function assertSearchResult(Index $index, array $query, array $expect)
     {
+        /* @var $resultSet ResultSet */
+        $resultSet = $index->search($query);
 
+        $response = $resultSet->getResponse()->getData();
+
+        $this->assertSame(array_column($response['hits']['hits'], '_source'), $expect);
     }
 }
