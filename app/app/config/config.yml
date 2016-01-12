@@ -75,7 +75,20 @@ fos_elastica:
     clients:
         default: { host: localhost, port: 9200 }
     indexes:
-        app: ~
+        app:
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            my_analyzer:
+                                type: custom
+                                tokenizer: standard
+                                filter: [ lowercase, russian_morphology, english_morphology]
+            types:
+                gender:
+                    mappings:
+                        _all:
+                            analazer: russian_morphology
 
 # Swiftmailer Configuration
 swiftmailer:
