@@ -4,6 +4,7 @@ namespace AppBundle\Tests\Elastic;
 
 use Elastica\Document;
 use Elastica\Multi\ResultSet;
+use Elastica\Type;
 
 class RussianMorphologyTest extends AbstractElasticTestCase
 {
@@ -14,26 +15,15 @@ class RussianMorphologyTest extends AbstractElasticTestCase
         $this->clearIndex($index);
         $type = $index->getType('gender');
 
-        $id = 1;
-        $sources = [
-            ['body' => 'женский наряд'],
-            ['body' => 'женское украшение'],
-            ['body' => 'женская одежда'],
-            ['body' => 'женские перчатки'],
-            ['body' => 'женскую обувь'],
-        ];
-
-        foreach ($sources as $source) {
-            $type->addDocument(
-                new Document($id++, $source)
-            );
-        }
+        $this->fill($type);
         $index->refresh();
 
         /* @var $resultSet ResultSet */
         $resultSet = $type->search([
             'query' => [
-                'term' => ['body' => 'женское']
+                'match' => [
+                    'body' => 'женское'
+                ]
             ]
         ]);
 
@@ -64,20 +54,7 @@ class RussianMorphologyTest extends AbstractElasticTestCase
             ]
         ]);
 
-        $id = 1;
-        $sources = [
-            ['body' => 'женский наряд'],
-            ['body' => 'женское украшение'],
-            ['body' => 'женская одежда'],
-            ['body' => 'женские перчатки'],
-            ['body' => 'женскую обувь'],
-        ];
-
-        foreach ($sources as $source) {
-            $type->addDocument(
-                new Document($id++, $source)
-            );
-        }
+        $this->fill($type);
         $index->refresh();
 
         /* @var $resultSet ResultSet */
@@ -104,5 +81,31 @@ class RussianMorphologyTest extends AbstractElasticTestCase
 
         $response = $resultSet->getResponse()->getData();
         $this->assertSame($response['hits']['total'], 5);
+
+        /* @var $resultSet ResultSet */
+        $resultSet = $type->search([
+            'query' => [
+                'match' => [
+                    'body' => 'женское'
+                ]
+            ]
+        ]);
+
+        $response = $resultSet->getResponse()->getData();
+        $this->assertSame($response['hits']['total'], 5);
+    }
+
+    private function fill(Type $type)
+    {
+        $sources = [
+            ['body' => 'женский наряд'],
+            ['body' => 'женское украшение'],
+            ['body' => 'женская одежда'],
+            ['body' => 'женские перчатки'],
+            ['body' => 'женскую обувь'],
+        ];
+        foreach ($sources as $id => $source) {
+            $type->addDocument(new Document($id, $source));
+        }
     }
 }
