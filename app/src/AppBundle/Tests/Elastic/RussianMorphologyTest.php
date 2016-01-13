@@ -2,13 +2,12 @@
 
 namespace AppBundle\Tests\Elastic;
 
-
 use Elastica\Document;
 use Elastica\Multi\ResultSet;
 
-class RussianTest extends AbstractElasticTestCase
+class RussianMorphologyTest extends AbstractElasticTestCase
 {
-    public function test()
+    public function testSimple()
     {
         $client = $this->getClient();
         $index = $client->getIndex('genders');
@@ -34,13 +33,11 @@ class RussianTest extends AbstractElasticTestCase
         /* @var $resultSet ResultSet */
         $resultSet = $type->search([
             'query' => [
-                'multi_match' => [
-                    'query' => ['body' => 'женское']
-                ]
+                'term' => ['body' => 'женское']
             ]
         ]);
 
         $response = $resultSet->getResponse()->getData();
-        var_dump($response);
+        $this->assertSame($response['hits']['total'], 1);
     }
 }
