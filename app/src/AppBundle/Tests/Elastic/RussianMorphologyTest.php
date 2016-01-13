@@ -83,7 +83,22 @@ class RussianMorphologyTest extends AbstractElasticTestCase
         /* @var $resultSet ResultSet */
         $resultSet = $type->search([
             'query' => [
-                'query_string' => ['query' => 'body:женское']
+                'query_string' => [
+                    'fields' => ['body'],
+                    'query' => 'женское'
+                ]
+            ]
+        ]);
+
+        $response = $resultSet->getResponse()->getData();
+        $this->assertSame($response['hits']['total'], 5);
+
+        /* @var $resultSet ResultSet */
+        $resultSet = $type->search([
+            'query' => [
+                'query_string' => [
+                    'query' => 'женское'
+                ]
             ]
         ]);
 
