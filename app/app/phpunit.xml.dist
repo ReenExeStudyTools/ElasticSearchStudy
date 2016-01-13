@@ -13,7 +13,7 @@
             <!--<directory>../src/*/Bundle/*Bundle/Tests</directory>-->
             <!--<directory>../src/*Bundle/Tests</directory>-->
             <!--<file>../src/AppBundle/Tests/Elastic/MatchTest.php</file>-->
-            <file>../src/AppBundle/Tests/Elastic/RussianTest.php</file>
+            <file>../src/AppBundle/Tests/Elastic/RussianMorphologyTest.php</file>
         </testsuite>
     </testsuites>
 
