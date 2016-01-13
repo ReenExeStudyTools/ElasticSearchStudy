@@ -75,6 +75,3 @@ bin/plugin -install analysis-morphology -url  http://dl.bintray.com/content/imot
 
 ### Links:
 * [Guide](https://www.elastic.co/guide/en/elasticsearch/guide/current/index.html)
-
-### TODO:
-* Need solution to resolve issue 'When `жіноча` (сумка) and `жіночний` (піджак) words will same' 
