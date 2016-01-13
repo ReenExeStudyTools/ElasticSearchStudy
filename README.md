@@ -15,6 +15,11 @@ sh elasticsearch/bin/elasticsearch
 curl -X GET http://localhost:9200/
 ```
 
+### [Analysis morphology] (https://github.com/imotov/elasticsearch-analysis-morphology)
+```bash
+bin/plugin -install analysis-morphology -url  http://dl.bintray.com/content/imotov/elasticsearch-plugins/org/elasticsearch/elasticsearch-analysis-morphology/1.2.1/elasticsearch-analysis-morphology-1.2.1.zip
+```
+
 ### Books
 ##### Mastering ElasticSearch (Second Edition) Rafal Kuc, Marek Rogozinski
 * [progress: 28 from 434]
