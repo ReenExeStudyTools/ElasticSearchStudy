@@ -75,6 +75,7 @@ bin/plugin -install analysis-morphology -url  http://dl.bintray.com/content/imot
 * [progress: 341 from 719]
 * [progress: 347 from 719]
 * [progress: 358 from 719]
+* [progress: 361 from 719]
 
 ### Links:
 * [Guide](https://www.elastic.co/guide/en/elasticsearch/guide/current/index.html)
